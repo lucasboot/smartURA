@@ -23,6 +23,7 @@ class laser_feature:
 
     def callback(self, ros_data):
         np_arr = ros_data.ranges
+
         # Publish new info
         #self.image_pub.publish(msg)
         #self.subscriber.unregister()
