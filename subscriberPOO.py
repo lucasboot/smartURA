@@ -11,15 +11,14 @@ import rospy
 from sensor_msgs.msg import LaserScan
 
 class laser_feature:
-
+    np_arr=LaserScan()
     def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
         # topic where we publish
         #self.image_pub = rospy.Publisher("/output/image_raw/compressed", CompressedImage)
         # self.bridge = CvBridge()
         # subscribed Topic
-        self.subscriber = rospy.Subscriber("/kobuki/laser/scan",
-            LaserScan, self.callback,  queue_size = 1)
+        self.subscriber = rospy.Subscriber("/kobuki/laser/scan", LaserScan, self.callback,  queue_size = 1)
 
     def callback(self, ros_data):
         np_arr = ros_data.ranges
