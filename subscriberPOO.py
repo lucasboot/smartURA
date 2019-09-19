@@ -6,11 +6,13 @@ import numpy as np
 # Ros libraries
 import roslib
 import rospy
+import pandas as pd  
 
 # Ros Messages
 from sensor_msgs.msg import LaserScan
 
 class laser_feature:
+    pesos = pd.read_csv("pesosneuronios.csv")
     np_arr=LaserScan()
     def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
