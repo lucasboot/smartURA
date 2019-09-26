@@ -40,7 +40,7 @@ from scipy.spatial import distance
 import pickle
 class laser_feature:
    key=1
-   treinamento = 'svm.sav'
+   treinamento = 'svm_2_copy.sav'
    loaded_model = pickle.load(open(treinamento, 'rb'))
    def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
@@ -72,7 +72,7 @@ speedBindings={
         'c':(1,.9),
           }
 
-speed = .2
+speed = .4
 turn = 1
 
 def vels(speed,turn):

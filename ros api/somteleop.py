@@ -79,7 +79,7 @@ speedBindings={
         'c':(1,.9),
           }
 
-speed = .2
+speed = .4
 turn = 1
 
 def vels(speed,turn):
