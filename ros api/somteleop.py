@@ -39,6 +39,9 @@ from sensor_msgs.msg import LaserScan
 from scipy.spatial import distance
 
 class laser_feature:
+   neuronios = pd.read_csv("https://raw.githubusercontent.com/lucasboot/smartURA/master/treinamentos/som.csv")
+   valores = neuronios.iloc[:, :-1].values
+   classe = neuronios.iloc[:,-1]
    key = 1
    def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
@@ -47,17 +50,12 @@ class laser_feature:
         # self.bridge = CvBridge()
         # subscribed Topic
         self.subscriber = rospy.Subscriber("/kobuki/laser/scan", LaserScan, self.callback,  queue_size = 1)
-   def get(escolha):
-       return escolha
    def callback(self, ros_data):
         novodado = ros_data.ranges
-        neuronios = pd.read_csv("https://raw.githubusercontent.com/lucasboot/smartURA/master/pesosneuronios.csv")
-        valores = neuronios.iloc[:, :-1].values
-        classe = neuronios.iloc[:,-1]
         ds = []
-        for i in range (len(valores)):
-            ds.append(distance.euclidean(novodado, valores[i]))
-        self.key = classe[ds.index(min(ds))]
+        for i in range (len(self.valores)):
+            ds.append(distance.euclidean(novodado, self.valores[i]))
+        self.key = self.classe[ds.index(min(ds))]
         # Publish new info
         #self.image_pub.publish(msg)
         #self.subscriber.unregister()
