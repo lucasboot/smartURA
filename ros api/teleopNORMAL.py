@@ -36,7 +36,20 @@ import roslib
 import pandas as pd
 # Ros Messages
 from sensor_msgs.msg import LaserScan
+import sys, select, termios, tty
 from scipy.spatial import distance
+
+
+def getKey():
+    tty.setraw(sys.stdin.fileno())
+    rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+    if rlist:
+        key = sys.stdin.read(1)
+    else:
+        key = ''
+
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    return key
 
 class laser_feature:
    key = 1

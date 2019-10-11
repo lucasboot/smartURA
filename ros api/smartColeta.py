@@ -39,9 +39,21 @@ from sensor_msgs.msg import LaserScan
 
 
 arq = open("coleta.csv", "w")
+import sys, select, termios, tty
+
+def getKey():
+    tty.setraw(sys.stdin.fileno())
+    rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+    if rlist:
+        key = sys.stdin.read(1)
+    else:
+        key = ''
+
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    return key
 class laser_feature:
-   key='i'
-    def __init__(self):
+   key='k'
+   def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
         # topic where we publish
         #self.image_pub = rospy.Publisher("/output/image_raw/compressed", CompressedImage)
@@ -49,11 +61,12 @@ class laser_feature:
         # subscribed Topic
         self.subscriber = rospy.Subscriber("/kobuki/laser/scan", LaserScan, self.callback,  queue_size = 1)
    def callback(self, ros_data):
-        ranges = ros_data.ranges
-        arq.write(str(ranges))
-        arq.write(str(self.key))
-        arq.write("\n")
-        time.sleep(1)
+       if any([self.key=='i' , self.key == 'j', self.key == 'l']):
+            ranges = ros_data.ranges
+            arq.write(str(ranges))
+            arq.write(", " +str(self.key))
+            arq.write("\n")
+            time.sleep(1)
 moveBindings = {
         'i':(1,0),
         'o':(1,-1),
@@ -74,13 +87,14 @@ speedBindings={
         'c':(1,.9),
           }
 
-speed = .4
-turn = 1
+speed = .3
+turn = .8
 
 def vels(speed,turn):
     return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
 if __name__=="__main__":
+    settings = termios.tcgetattr(sys.stdin)
     rospy.init_node('turtlebot_teleop')
     pub = rospy.Publisher('cmd_vel', Twist, queue_size=5)
     x = 0
@@ -96,8 +110,8 @@ if __name__=="__main__":
     try:
         while(1):
             #print(vels(speed,turn))
-            key = str(ic.key)
-            print(key)
+            key = getKey()
+            ic.key = key
             if key in moveBindings.keys():
                 x = moveBindings[key][0]
                 th = moveBindings[key][1]
