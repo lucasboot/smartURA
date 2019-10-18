@@ -38,6 +38,7 @@ import pandas as pd
 from sensor_msgs.msg import LaserScan
 from scipy.spatial import distance
 import pickle
+
 class laser_feature:
    key=1
    treinamento = 'svm_2_copy.sav'
