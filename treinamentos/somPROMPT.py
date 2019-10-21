@@ -73,7 +73,7 @@ class laser_feature:
         #novodado[novodado=='inf'] = 10
         ds = []
         for i in range (len(self.valores)):
-            ds.append(distance.euclidean(novodado[i], self.valores[i]))
+            ds.append(distance.euclidean(novodado, self.valores[i]))
         linha = ds.index(min(ds))
         if(self.tag[linha]==1):
             self.key = self.classe[ds.index(min(ds))]
