@@ -52,7 +52,7 @@ def getKey():
     return key
 
 class laser_feature:
-   neuronios = pd.read_csv("https://raw.githubusercontent.com/lucasboot/smartURA/master/treinamentos/som.csv")
+   neuronios = pd.read_csv("https://raw.githubusercontent.com/lucasboot/smartURA/master/databases/database_tag.csv")
    neuronios = neuronios.replace('i', 1)
    neuronios = neuronios.replace('j', 0)
    neuronios = neuronios.replace('l', 2)
@@ -70,16 +70,18 @@ class laser_feature:
         self.subscriber = rospy.Subscriber("/kobuki/laser/scan", LaserScan, self.callback,  queue_size = 1)
    def callback(self, ros_data):
         novodado = ros_data.ranges
-        novodado[novodado=='inf'] = 10
+        #novodado[novodado=='inf'] = 10
         ds = []
         for i in range (len(self.valores)):
-            ds.append(distance.euclidean(novodado, self.valores[i]))
-        linha = ds.index(min(ds)
-        if(tag[linha] == 1):
+            ds.append(distance.euclidean(novodado[i], self.valores[i]))
+        linha = ds.index(min(ds))
+        if(self.tag[linha]==1):
             self.key = self.classe[ds.index(min(ds))]
         else:
+            print("Digite a decisao correta para este neuronio:")
             chave = getKey()
-            self.classe[linha] = str(chave)
+            self.classe[linha] = chave
+            self.key = str(chave)
             self.tag[linha] = 1
         # Publish new info
         #self.image_pub.publish(msg)
