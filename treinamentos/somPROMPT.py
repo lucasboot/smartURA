@@ -53,11 +53,11 @@ def getKey():
 
 class laser_feature:
    neuronios = pd.read_csv("https://raw.githubusercontent.com/lucasboot/smartURA/master/databases/database_tag.csv")
-   neuronios = neuronios.replace('i', 1)
-   neuronios = neuronios.replace('j', 0)
-   neuronios = neuronios.replace('l', 2)
    valores = neuronios.iloc[:, :-2].values
    classe = neuronios.iloc[:,-2]
+   classe = classe.replace('i', 1)
+   classe = classe.replace('j', 0)
+   classe = classe.replace('l', 2)
    tag = neuronios.iloc[:, -1]
    key = 'k'
 
@@ -76,12 +76,13 @@ class laser_feature:
             ds.append(distance.euclidean(novodado, self.valores[i]))
         linha = ds.index(min(ds))
         if(self.tag[linha]==1):
+            #print(self.classe[linha])
             self.key = self.classe[ds.index(min(ds))]
         else:
             print("Digite a decisao correta para este neuronio:")
             chave = getKey()
             self.classe[linha] = chave
-            self.key = str(chave)
+            self.key = chave
             self.tag[linha] = 1
         # Publish new info
         #self.image_pub.publish(msg)
@@ -129,7 +130,8 @@ if __name__=="__main__":
     try:
         while(1):
             #print(vels(speed,turn))
-            key = ic.key
+            print(ic.key)
+            key = str(ic.key)
             if key in moveBindings.keys():
                 x = moveBindings[key][0]
                 th = moveBindings[key][1]
@@ -143,7 +145,7 @@ if __name__=="__main__":
                 if (status == 14):
                     print(msg)
                 status = (status + 1) % 15
-            elif key == ' ' or key == 'k' :
+            elif key == 'k' :
                 x = 0
                 th = 0
                 control_speed = 0
