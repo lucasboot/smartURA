@@ -30,6 +30,8 @@
 import rospy
 from geometry_msgs.msg import Twist
 import sys, time
+import sys, select, termios, tty
+
 import numpy as np
 # Ros libraries
 import roslib
@@ -37,6 +39,17 @@ import pandas as pd
 # Ros Messages
 from sensor_msgs.msg import LaserScan
 from scipy.spatial import distance
+
+def getKey():
+    tty.setraw(sys.stdin.fileno())
+    rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+    if rlist:
+        key = sys.stdin.read(1)
+    else:
+        key = ''
+
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    return key
 
 class laser_feature:
    neuronios = pd.read_csv("https://raw.githubusercontent.com/lucasboot/smartURA/master/treinamentos/som.csv")
@@ -57,12 +70,17 @@ class laser_feature:
         self.subscriber = rospy.Subscriber("/kobuki/laser/scan", LaserScan, self.callback,  queue_size = 1)
    def callback(self, ros_data):
         novodado = ros_data.ranges
+        novodado[novodado=='inf'] = 10
         ds = []
         for i in range (len(self.valores)):
             ds.append(distance.euclidean(novodado, self.valores[i]))
         linha = ds.index(min(ds)
-        temp = self.classe[ds.index(min(ds))]
-        self.key 
+        if(tag[linha] == 1):
+            self.key = self.classe[ds.index(min(ds))]
+        else:
+            chave = getKey()
+            self.classe[linha] = str(chave)
+            self.tag[linha] = 1
         # Publish new info
         #self.image_pub.publish(msg)
         #self.subscriber.unregister()
@@ -94,6 +112,7 @@ def vels(speed,turn):
 
 if __name__=="__main__":
     rospy.init_node('turtlebot_teleop')
+    settings = termios.tcgetattr(sys.stdin)
     pub = rospy.Publisher('cmd_vel', Twist, queue_size=5)
     x = 0
     th = 0
