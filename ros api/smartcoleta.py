@@ -31,6 +31,7 @@ import rospy
 from geometry_msgs.msg import Twist
 import sys, time
 import numpy as np
+from scipy.spatial import distance
 # Ros libraries
 import roslib
 import pandas as pd
@@ -72,9 +73,9 @@ class laser_feature:
         if(self.marcacoes[ds.index(min(ds))] is not 1):
             self.key = getKey()
             self.marcacoes[ds.index(min(ds))] = 1
-            self.decisoes[ds.index(min(ds))] = self.key
+            self.decisoes[ds.index(min(ds))] = str(self.key)
         else:
-            self.key = self.decisoes[ds.index(min(ds))]
+            self.key = str(self.decisoes[ds.index(min(ds))])
         # Publish new info
         #self.image_pub.publish(msg)
         #self.subscriber.unregister()
@@ -121,6 +122,7 @@ if __name__=="__main__":
     try:
         while(1):
             key = ic.key
+            print(key)
             if key in moveBindings.keys():
                 x = moveBindings[key][0]
                 th = moveBindings[key][1]
