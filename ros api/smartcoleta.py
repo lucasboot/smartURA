@@ -78,7 +78,12 @@ class laser_feature:
             self.marcacoes[ds.index(min(ds))] = 1
             self.decisoes[ds.index(min(ds))] = str(self.key)
         else:
-            self.key = str(self.decisoes[ds.index(min(ds))])
+            self.key= 'k'
+            ok = raw_input("A melhor decisao eh " + str(self.decisoes[ds.index(min(ds))]))
+            if(ok):
+                self.key = str(self.decisoes[ds.index(min(ds))])
+            else:
+                self.marcacoes[ds.index(min(ds))] = 0
         # Publish new info
         #self.image_pub.publish(msg)
         #self.subscriber.unregister()
