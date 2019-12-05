@@ -78,12 +78,10 @@ class laser_feature:
             self.marcacoes[ds.index(min(ds))] = 1
             self.decisoes[ds.index(min(ds))] = str(self.key)
         else:
-            self.key= 'k'
-            ok = raw_input("A melhor decisao eh " + str(self.decisoes[ds.index(min(ds))]))
-            if(ok):
-                self.key = str(self.decisoes[ds.index(min(ds))])
-            else:
-                self.marcacoes[ds.index(min(ds))] = 0
+            #self.key= 'k'
+            #ok = raw_input("A melhor decisao eh " + str(self.decisoes[ds.index(min(ds))]))
+            self.key = str(self.decisoes[ds.index(min(ds))])
+
         # Publish new info
         #self.image_pub.publish(msg)
         #self.subscriber.unregister()
@@ -139,7 +137,6 @@ if __name__=="__main__":
                 speed = speed * speedBindings[key][0]
                 turn = turn * speedBindings[key][1]
                 count = 0
-
                 print(vels(speed,turn))
                 if (status == 14):
                     print(msg)
