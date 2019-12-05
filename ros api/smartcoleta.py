@@ -70,8 +70,11 @@ class laser_feature:
         ds = []
         for i in range (len(self.neuronios)):
             ds.append(distance.euclidean(novodado, self.neuronios[i]))
-        if(self.marcacoes[ds.index(min(ds))] is not 1):
-            self.key = getKey()
+
+        print(str(self.decisoes[ds.index(min(ds))]))
+        if(self.marcacoes[ds.index(min(ds))] == 0):
+            self.key = 'k'
+            self.key = raw_input("Neuronio sem marcacao, qual a melhor decisao? ")
             self.marcacoes[ds.index(min(ds))] = 1
             self.decisoes[ds.index(min(ds))] = str(self.key)
         else:
@@ -122,7 +125,7 @@ if __name__=="__main__":
     try:
         while(1):
             key = ic.key
-            print(key)
+            #print(key)
             if key in moveBindings.keys():
                 x = moveBindings[key][0]
                 th = moveBindings[key][1]
