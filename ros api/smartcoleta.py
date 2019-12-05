@@ -36,12 +36,10 @@ import roslib
 import pandas as pd
 # Ros Messages
 from sensor_msgs.msg import LaserScan
-
-
-arq = open("som_smartColeta.csv", "w")
-
-
 import sys, select, termios, tty
+
+#arq = open("som_smartColeta.csv", "w")
+
 
 def getKey():
     tty.setraw(sys.stdin.fileno())
@@ -54,8 +52,7 @@ def getKey():
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
     return key
 class laser_feature:
-   mapa = pd.read_csv("som_commarkers.csv")
-   mapa = 
+   mapa = pd.read_csv("https://raw.githubusercontent.com/lucasboot/smartURA/master/treinamentos/neuronis.csv")
    neuronios = mapa.iloc[:, :-2].values
    decisoes = mapa.iloc[:,-2].values
    marcacoes = mapa.iloc[:, -1].values
@@ -123,9 +120,7 @@ if __name__=="__main__":
     ic = laser_feature()
     try:
         while(1):
-            #print(vels(speed,turn))
-            key = getKey()
-            ic.key = key
+            key = ic.key
             if key in moveBindings.keys():
                 x = moveBindings[key][0]
                 th = moveBindings[key][1]
@@ -183,4 +178,3 @@ if __name__=="__main__":
         twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
         twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
         pub.publish(twist)
-
