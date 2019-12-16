@@ -36,6 +36,7 @@ import roslib
 import pandas as pd
 # Ros Messages
 from sensor_msgs.msg import LaserScan
+from nav_msgs.msg import Odometry
 
 
 arq = open("coleta.csv", "w")
@@ -53,6 +54,7 @@ def getKey():
     return key
 class laser_feature:
    key='k'
+   impresso = 0
    def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
         # topic where we publish
@@ -60,13 +62,23 @@ class laser_feature:
         # self.bridge = CvBridge()
         # subscribed Topic
         self.subscriber = rospy.Subscriber("/kobuki/laser/scan", LaserScan, self.callback,  queue_size = 1)
+        self.subscriber2 = rospy.Subscriber("/odom", Odometry, self.callback2,  queue_size = 1)
    def callback(self, ros_data):
        if any([self.key=='i' , self.key == 'j', self.key == 'l']):
             ranges = ros_data.ranges
             arq.write(str(ranges))
             arq.write(", " +str(self.key))
             arq.write("\n")
+            self.impresso = 1
             time.sleep(1)
+    def callback2(self, data):
+        if (self.impresso == 1):
+            ori = data.pose.orientarion
+            print(ori)
+            #arq.write(str(ori))
+            #arq.write("\n")
+            self.impresso = 0
+
 moveBindings = {
         'i':(1,0),
         'o':(1,-1),
