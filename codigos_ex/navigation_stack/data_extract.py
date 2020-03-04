@@ -33,7 +33,7 @@ class data_extractor:
         #self.image_pub.publish(msg)
         #self.subscriber.unregister()
 
-def main(args):
+def main():
     '''Initializes and cleanup ros node'''
     ie = data_extractor()
     rospy.init_node('data_extractor', anonymous=True)
