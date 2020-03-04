@@ -22,7 +22,7 @@ class data_extractor:
 
     def callback1(self, ros_image):
         buffer = ros_image.data
-        print(buffer)
+        #print(buffer)
     
     def callback2(self, ros_twist):
         vel_linear = ros_twist.linear
