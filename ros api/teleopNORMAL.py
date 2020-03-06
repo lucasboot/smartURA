@@ -83,12 +83,12 @@ def getKey():
 
 speed = .2
 turn = 1
+settings = termios.tcgetattr(sys.stdin)
 
 def vels(speed,turn):
     return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
 if __name__=="__main__":
-    settings = termios.tcgetattr(sys.stdin)
     
     rospy.init_node('turtlebot_teleop')
     pub = rospy.Publisher('~cmd_vel', Twist, queue_size=5)
