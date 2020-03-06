@@ -79,7 +79,7 @@ def main():
     control_speed = 0
     control_turn = 0
 
-    publisher1 = rospy.Publisher("/cmd_vel", Twist, queue_size=5)
+    pub = rospy.Publisher("/cmd_vel", Twist, queue_size=5)
     try:
         while(1):
             key = getKey()
