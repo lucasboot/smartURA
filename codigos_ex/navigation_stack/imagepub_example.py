@@ -35,12 +35,12 @@ class image_feature:
     def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
         # topic where we publish
-        self.image_pub = rospy.Publisher("/output/image_raw/compressed",
+        self.image_pub = rospy.Publisher("/output_image",
             CompressedImage)
         # self.bridge = CvBridge()
 
         # subscribed Topic
-        self.subscriber = rospy.Subscriber("/camera/image/compressed",
+        self.subscriber = rospy.Subscriber("/camera/rgb/image_raw/compressed",
             CompressedImage, self.callback,  queue_size = 1)
         if VERBOSE :
             print "subscribed to /camera/image/compressed"
