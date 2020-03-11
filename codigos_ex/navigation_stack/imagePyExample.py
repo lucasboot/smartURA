@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 import roslib
-roslib.load_manifest('my_package')
+
 import sys
 import rospy
 import cv2
