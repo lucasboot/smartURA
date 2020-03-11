@@ -36,6 +36,7 @@ class image_feature:
     def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
         # topic where we publish
+        self.bridge = CvBridge()
         self.image_pub = rospy.Publisher("/output_image",
             CompressedImage)
         # self.bridge = CvBridge()
@@ -94,7 +95,7 @@ class image_feature:
         #self.subscriber.unregister()
 
 def main(args):
-    '''Initializes and cleanup ros node'''
+    '''Initializes and cleanup ros node'''  
     ic = image_feature()
     rospy.init_node('image_feature', anonymous=True)
     try:
