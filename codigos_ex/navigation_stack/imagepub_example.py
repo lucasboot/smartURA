@@ -18,6 +18,7 @@ from scipy.ndimage import filters
 
 # OpenCV
 import cv2
+from cv_bridge import CvBridge, CvBridgeError
 
 # Ros libraries
 import roslib
@@ -49,12 +50,15 @@ class image_feature:
     def callback(self, ros_data):
         '''Callback function of subscribed topic. 
         Here images get converted and features detected'''
+        image_np = self.bridge.imgmsg_to_cv2(ros_data, "bgr8")
         if VERBOSE :
             print 'received image of type: "%s"' % ros_data.format
 
         #### direct conversion to CV2 ####
         np_arr = np.fromstring(ros_data.data, np.uint8)
-        image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        #image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        #image_np = cv2.imdecode(cv_image, cv2.CV_LOAD_IMAGE_COLOR)
+
         #image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR) # OpenCV >= 3.0:
         
         #### Feature detectors using CV2 #### 
@@ -71,7 +75,7 @@ class image_feature:
         if VERBOSE :
             print '%s detector found: %s points in: %s sec.'%(method,
                 len(featPoints),time2-time1)
-
+   
         for featpoint in featPoints:
             x,y = featpoint.pt
             cv2.circle(image_np,(int(x),int(y)), 3, (0,0,255), -1)
@@ -83,9 +87,9 @@ class image_feature:
         msg = CompressedImage()
         msg.header.stamp = rospy.Time.now()
         msg.format = "jpeg"
-        msg.data = np.array(cv2.imencode('.jpg', image_np)[1]).tostring()
+        #msg.data = np.array(cv2.imencode('.jpg', image_np)[1]).tostring()
         # Publish new image
-        self.image_pub.publish(msg)
+        self.image_pub.publish(self.bridge.cv2_to_imgmsg(image_np, "bgr8"))
         
         #self.subscriber.unregister()
 
