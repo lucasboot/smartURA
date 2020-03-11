@@ -8,7 +8,7 @@ import rospy
 import time
 
 # Ros Messages
-from sensor_msgs.msg import CompressedImage
+from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
 
 #System libs
