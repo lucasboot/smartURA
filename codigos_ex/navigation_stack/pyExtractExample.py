@@ -30,7 +30,8 @@ class image_converter:
       print(e)
     
     cv2.imshow("Image window", cv_image)
-    teste = np.array(cv_image)
+    teste =cv_image.flatten()
+    print(teste[1])
     savetxt('database.csv', teste, delimiter=',')
     #arq.write(teste)
     #arq.write("\n")
