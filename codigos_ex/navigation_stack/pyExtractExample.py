@@ -13,7 +13,7 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
-#arq = open("database.csv", "w")
+arq = open("database.csv", "a")
 
 class image_converter:
 
@@ -32,8 +32,9 @@ class image_converter:
     cv2.imshow("Image window", cv_image)
     teste =cv_image.flatten()
     print(teste[1])
-    savetxt('database.csv', teste, delimiter=',')
-    savetxt('struct_array.csv', cv_image, delimiter=',', fmt=['%d' , '%d', '%d'], header='x,y,channel', comments='')
+    savetxt(arq, teste, delimiter=',')
+    arq.write("\n")
+    #savetxt('struct_array.csv', cv_image, delimiter=',', fmt=['%d' , '%d', '%d'], header='x,y,channel', comments='')
     #arq.write(teste)
     #arq.write("\n")
     #print(teste)
@@ -55,4 +56,4 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv)
-#arq.close()
+arq.close()
