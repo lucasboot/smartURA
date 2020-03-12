@@ -33,6 +33,7 @@ class image_converter:
     teste =cv_image.flatten()
     print(teste[1])
     savetxt('database.csv', teste, delimiter=',')
+    savetxt('struct_array.csv', cv_image, delimiter=',', fmt=['%d' , '%d', '%d'], header='x,y,channel', comments='')
     #arq.write(teste)
     #arq.write("\n")
     #print(teste)
