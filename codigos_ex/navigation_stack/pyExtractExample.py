@@ -11,6 +11,8 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
+arq = open("database.csv", "w")
+
 class image_converter:
 
   def __init__(self):
@@ -27,6 +29,8 @@ class image_converter:
     
     cv2.imshow("Image window", cv_image)
     teste = np.array(cv_image)
+    arq.write(teste)
+    arq.write("\n")
     print(teste)
     cv2.waitKey(3)
 
@@ -46,3 +50,4 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv)
+arq.close()
