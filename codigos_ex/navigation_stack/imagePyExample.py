@@ -1,8 +1,9 @@
 #!/usr/bin/env python
+#ROS Wiki: http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPython
 from __future__ import print_function
 
 import roslib
-
+import numpy as np
 import sys
 import rospy
 import cv2
@@ -23,12 +24,10 @@ class image_converter:
       cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
     except CvBridgeError as e:
       print(e)
-
-    (rows,cols,channels) = cv_image.shape
-    if cols > 60 and rows > 60 :
-      cv2.circle(cv_image, (50,50), 10, 255)
-
+    
     cv2.imshow("Image window", cv_image)
+    teste = np.array(cv_image)
+    print(teste)
     cv2.waitKey(3)
 
     try:
