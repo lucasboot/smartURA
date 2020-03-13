@@ -128,15 +128,6 @@ if __name__=="__main__":
                 x = moveBindings[key][0]
                 th = moveBindings[key][1]
                 count = 0
-            elif key in speedBindings.keys():
-                speed = speed * speedBindings[key][0]
-                turn = turn * speedBindings[key][1]
-                count = 0
-
-                print(vels(speed,turn))
-                if (status == 14):
-                    print(msg)
-                status = (status + 1) % 15
             elif key == ' ' or key == 'k' :
                 x = 0
                 th = 0
